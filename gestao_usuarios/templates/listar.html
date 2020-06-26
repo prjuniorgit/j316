@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="col-lg-12">
+<table class="table">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Email</th>
+        {% if request.user.is_superuser %}
+      <th>Ação</th>
+        {% endif %}
+    </tr>
+  </thead>
+  <tbody>
+  {% for usuario in lista %}
+    <tr>
+      <td>{{ usuario.username }}</td>
+      <td>{{ usuario.email }}</td>
+        <td>
+          {% if request.user.is_superuser %}
+            <a href="{% url 'remover_usuario' pk=usuario.pk %}">
+                <i class="material-icons">delete</i>
+            </a>
+          {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+    {% if request.user.is_staff %}
+<a href="{% url 'registrar_usuario' %}">
+<button type="submit" class="btn btn-primary">
+    Cadastrar
+</button>
+</a>
+  {% endif %}
+</div>
+{% endblock content %}
